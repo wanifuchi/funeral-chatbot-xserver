@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSERVER連携デモ - とね屋チャットボット</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #2b4c7d 0%, #3a5a89 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #2b4c7d;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .integration-badge {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .setup-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .setup-section h2 {
+            color: #2b4c7d;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .copy-button {
+            background: #2b4c7d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .copy-button:hover {
+            background: #1e3a5f;
+        }
+
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            position: relative;
+            padding: 15px 0 15px 50px;
+            margin-bottom: 10px;
+            border-left: 2px solid #e9ecef;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: -15px;
+            top: 10px;
+            width: 30px;
+            height: 30px;
+            background: #2b4c7d;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .step-list li:last-child {
+            border-left: none;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .warning-box h4 {
+            color: #d68910;
+            margin-bottom: 10px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .success-box h4 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+
+        .demo-notice {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .demo-notice h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .demo-notice p {
+            color: #424242;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .setup-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>XSERVER連携デモ</h1>
+            <p>とね屋チャットボット - フロントエンド：XSERVER / バックエンド：Vercel</p>
+            <div class="integration-badge">
+                <span>🔗</span>
+                <span>XSERVER × Vercel 連携</span>
+            </div>
+        </div>
+
+        <div class="setup-section">
+            <h2>📋 XSERVER導入手順</h2>
+            <ol class="step-list">
+                <li>
+                    <strong>Vercelバックエンドのデプロイ</strong><br>
+                    GitHubにコードをプッシュし、Vercelに連携してデプロイします。
+                </li>
+                <li>
+                    <strong>XSERVERのファイルマネージャーにアクセス</strong><br>
+                    サーバーパネル → ファイルマネージャー → 対象ドメインのpublic_htmlフォルダ
+                </li>
+                <li>
+                    <strong>HTMLファイルに導入コードを追加</strong><br>
+                    以下のコードを &lt;/body&gt; 直前に貼り付けます。
+                </li>
+                <li>
+                    <strong>動作確認</strong><br>
+                    ウェブサイトを開いて、チャットボタンが表示されることを確認します。
+                </li>
+            </ol>
+        </div>
+
+        <div class="setup-section">
+            <h2>🔧 導入コード（XSERVER用）</h2>
+            <p>以下のコードをHTMLファイルの &lt;/body&gt; 直前に貼り付けてください：</p>
+            
+            <div class="code-block">
+                <pre>&lt;!-- とね屋チャットボット --&gt;
+&lt;script&gt;
+  (function() {
+    // Vercelバックエンドから動的に読み込み
+    const script = document.createElement('script');
+    script.src = 'https://your-project.vercel.app/toneya-chatbot.js';
+    script.onload = function() {
+      ToneyaChatbot.init({
+        apiUrl: 'https://your-project.vercel.app'
+      });
+    };
+    document.head.appendChild(script);
+  })();
+&lt;/script&gt;</pre>
+                <button class="copy-button" onclick="copyCode(this)">コピー</button>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 重要</h4>
+                <p>上記の <code>your-project.vercel.app</code> を実際のVercelのURLに置き換えてください。</p>
+            </div>
+        </div>
+
+        <div class="setup-section">
+            <h2>🎨 カスタマイズ版</h2>
+            <p>色や会社名をカスタマイズしたい場合：</p>
+            
+            <div class="code-block">
+                <pre>&lt;script&gt;
+  (function() {
+    const script = document.createElement('script');
+    script.src = 'https://your-project.vercel.app/toneya-chatbot.js';
+    script.onload = function() {
+      ToneyaChatbot.init({
+        apiUrl: 'https://your-project.vercel.app',
+        position: 'bottom-right',
+        primaryColor: '#2b4c7d',
+        companyName: 'とね屋のお葬式',
+        phoneNumber: '0120-000-000'
+      });
+    };
+    document.head.appendChild(script);
+  })();
+&lt;/script&gt;</pre>
+                <button class="copy-button" onclick="copyCode(this)">コピー</button>
+            </div>
+        </div>
+
+        <div class="setup-section">
+            <h2>🔒 セキュリティ設定</h2>
+            <p>Vercelの環境変数で以下を設定してください：</p>
+            
+            <div class="code-block">
+                <pre>CORS_ORIGIN=https://your-domain.com
+GEMINI_API_KEY=your_gemini_api_key
+NODE_ENV=production</pre>
+                <button class="copy-button" onclick="copyCode(this)">コピー</button>
+            </div>
+
+            <div class="success-box">
+                <h4>✅ 自動対応</h4>
+                <p>XSERVERの標準ドメイン（*.xserver.jp、*.xsrv.jp）は自動的に許可されます。</p>
+            </div>
+        </div>
+
+        <div class="setup-section">
+            <h2>📱 動作確認</h2>
+            <p>以下の方法で動作を確認できます：</p>
+            
+            <ul>
+                <li><strong>ヘルスチェック</strong>：<code>https://your-project.vercel.app/api/health</code></li>
+                <li><strong>チャット機能</strong>：右下のチャットボタンをクリック</li>
+                <li><strong>レスポンシブ</strong>：スマホ・タブレットでの表示確認</li>
+            </ul>
+        </div>
+
+        <div class="demo-notice">
+            <h4>📱 このページでの動作確認</h4>
+            <p>このページでは実際にチャットボットが動作しています。右下のチャットボタンをクリックしてテストしてみてください。（現在はローカル環境のため、Vercelデプロイ後に正常動作します）</p>
+        </div>
+    </div>
+
+    <!-- デモ用チャットボット（ローカル環境） -->
+    <script>
+        // 本番環境ではこのコードを使用
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'toneya-chatbot.js'; // ローカル環境用
+            script.onload = function() {
+                ToneyaChatbot.init({
+                    apiUrl: 'http://localhost:3000' // ローカル環境用
+                });
+            };
+            document.head.appendChild(script);
+        })();
+    </script>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.previousElementSibling;
+            const code = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'コピーしました！';
+                button.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#2b4c7d';
+                }, 2000);
+            }).catch(err => {
+                console.error('コピーに失敗しました:', err);
+            });
+        }
+    </script>
+</body>
+</html>
