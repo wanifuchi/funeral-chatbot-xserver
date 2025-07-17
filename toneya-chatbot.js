@@ -351,7 +351,7 @@
         }
 
         .toneya-typing-indicator {
-          display: none;
+          display: flex;
           align-items: center;
           gap: 8px;
           padding: 12px 16px;
@@ -908,10 +908,16 @@
       
       const messagesContainer = document.getElementById('toneya-chatbot-messages');
       
+      // デバッグ用ログ（本番環境では削除可能）
+      if (this.config.isDebugMode) {
+        console.log('showTypingIndicator called');
+      }
+      
       // 新しいタイピングインジケーターを動的に生成
       const indicator = document.createElement('div');
       indicator.className = 'toneya-typing-indicator';
       indicator.id = 'toneya-typing-indicator';
+      indicator.style.display = 'flex'; // 確実に表示
       indicator.innerHTML = `
         <div class="toneya-typing-dots">
           <div class="toneya-typing-dot"></div>
