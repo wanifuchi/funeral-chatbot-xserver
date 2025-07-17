@@ -32,17 +32,18 @@ function loadKnowledgeBase() {
  * @returns {string} 生成されたプロンプト
  */
 function createPrompt(userQuestion, knowledge) {
-  return `あなたは「${knowledge.companyName}」の正確で誠実なカスタマーサービス担当者です。
+  return `あなたは「${knowledge.companyInfo?.officialName || knowledge.companyName}」の正確で誠実なカスタマーサービス担当者です。
 以下の実際のサイト情報のみに基づいて、お客様の質問にお答えください。
 
 【重要な回答ガイドライン】
 1. 提供された情報に記載されている内容のみを回答する
 2. 推測や一般的な知識による回答は絶対に行わない
-3. 料金については「要問い合わせ」であることを明確にする
-4. 詳細情報がない場合は「詳細はお電話（${knowledge.contact.phone}）でお問い合わせください」と案内する
-5. 「情報なし」と記載されている項目については、正直に情報がないことを伝える
-6. 常に温かく、理解しやすい言葉遣いで応答する
-7. 実際のサイト情報に基づいた正確な回答を最優先とする
+3. 挨拶（「こんにちは。とね屋のお葬式です。」など）は含めない - 直接回答内容から始める
+4. 料金については具体的な価格帯と会員制度について説明する
+5. 詳細情報がない場合は「詳細はお電話（${knowledge.contact?.emergencyPhone || '0120-000-000'}）でお問い合わせください」と案内する
+6. 「情報なし」と記載されている項目については、正直に情報がないことを伝える
+7. 常に温かく、理解しやすい言葉遣いで応答する
+8. 実際のサイト情報に基づいた正確な回答を最優先とする
 
 【実際のサイト情報】
 ${JSON.stringify(knowledge, null, 2)}
@@ -68,7 +69,7 @@ function getKeywordResponse(question) {
   
   // 料金関連
   if (lowerQuestion.includes('料金') || lowerQuestion.includes('費用') || lowerQuestion.includes('価格')) {
-    return `とね屋では幅広い価格帯で葬儀プランをご用意しております：
+    return `幅広い価格帯で葬儀プランをご用意しております：
 
 💰 **料金一覧**
 🔸 **直葬/火葬式**: 39,000円～184,800円
