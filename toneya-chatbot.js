@@ -117,39 +117,148 @@
         #toneya-chatbot-button {
           position: fixed;
           ${this.config.position === 'bottom-right' ? 'right: 20px; bottom: 20px;' : 'left: 20px; bottom: 20px;'}
-          width: 60px;
-          height: 60px;
-          background: linear-gradient(135deg, ${this.config.primaryColor}, #4a6d9a);
-          border-radius: 50%;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          width: auto;
+          height: auto;
+          background: transparent;
+          border: none;
           cursor: pointer;
           display: flex;
-          align-items: center;
-          justify-content: center;
+          align-items: flex-end;
           z-index: 9998;
           transition: all 0.3s ease;
-          border: none;
+          flex-direction: column;
+          align-items: flex-end;
         }
 
         #toneya-chatbot-button:hover {
-          transform: scale(1.1);
-          box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+          transform: scale(1.05);
         }
 
         #toneya-chatbot-button.pulse {
-          animation: toneya-pulse 2s infinite;
+          animation: toneya-chat-pulse 2s infinite;
         }
 
-        @keyframes toneya-pulse {
+        @keyframes toneya-chat-pulse {
           0% { transform: scale(1); }
-          50% { transform: scale(1.05); }
+          50% { transform: scale(1.02); }
           100% { transform: scale(1); }
         }
 
-        #toneya-chatbot-button svg {
-          width: 30px;
-          height: 30px;
-          fill: white;
+        .toneya-chat-bubble {
+          position: relative;
+          background: linear-gradient(135deg, #a0342d, #c4453c);
+          color: white;
+          padding: 12px 18px;
+          border-radius: 20px;
+          font-size: 14px;
+          font-weight: 500;
+          margin-bottom: 8px;
+          box-shadow: 0 4px 15px rgba(160, 52, 45, 0.3);
+          white-space: nowrap;
+          animation: toneya-bubble-appear 0.5s ease-out;
+          line-height: 1.4;
+        }
+
+        .toneya-chat-bubble::after {
+          content: '';
+          position: absolute;
+          bottom: -8px;
+          right: 20px;
+          width: 0;
+          height: 0;
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-top: 8px solid #a0342d;
+        }
+
+        .toneya-chat-avatar {
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          border: 3px solid white;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .toneya-chat-avatar::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, #2b4c7d, #4a6d9a);
+          opacity: 0.1;
+          border-radius: 50%;
+        }
+
+        .toneya-chat-avatar-icon {
+          width: 40px;
+          height: 40px;
+          background: linear-gradient(135deg, #2b4c7d, #4a6d9a);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          z-index: 1;
+        }
+
+        .toneya-chat-avatar-icon::before {
+          content: '💬';
+          font-size: 20px;
+          color: white;
+        }
+
+        @keyframes toneya-bubble-appear {
+          0% { 
+            opacity: 0; 
+            transform: translateY(10px) scale(0.9);
+          }
+          100% { 
+            opacity: 1; 
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        .toneya-chat-bubble:hover {
+          background: linear-gradient(135deg, #b83b34, #d44a41);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(160, 52, 45, 0.4);
+        }
+
+        .toneya-chat-avatar:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* より可愛い追加アニメーション */
+        @keyframes toneya-float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-3px); }
+        }
+
+        .toneya-chat-bubble {
+          animation: toneya-float 3s ease-in-out infinite;
+        }
+
+        .toneya-chat-avatar {
+          animation: toneya-float 3s ease-in-out infinite;
+          animation-delay: 0.5s;
+        }
+
+        /* クリック時のエフェクト */
+        #toneya-chatbot-button:active .toneya-chat-bubble {
+          transform: scale(0.95);
+        }
+
+        #toneya-chatbot-button:active .toneya-chat-avatar {
+          transform: scale(0.95);
         }
 
         #toneya-chatbot-badge {
@@ -166,6 +275,55 @@
           align-items: center;
           justify-content: center;
           font-weight: bold;
+          border: 2px solid white;
+          z-index: 10001;
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+          #toneya-chatbot-button {
+            ${this.config.position === 'bottom-right' ? 'right: 15px; bottom: 15px;' : 'left: 15px; bottom: 15px;'}
+          }
+          
+          .toneya-chat-bubble {
+            font-size: 12px;
+            padding: 10px 15px;
+          }
+          
+          .toneya-chat-avatar {
+            width: 60px;
+            height: 60px;
+          }
+          
+          .toneya-chat-avatar-icon {
+            width: 35px;
+            height: 35px;
+          }
+          
+          .toneya-chat-avatar-icon::before {
+            font-size: 18px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .toneya-chat-bubble {
+            font-size: 11px;
+            padding: 8px 12px;
+          }
+          
+          .toneya-chat-avatar {
+            width: 55px;
+            height: 55px;
+          }
+          
+          .toneya-chat-avatar-icon {
+            width: 30px;
+            height: 30px;
+          }
+          
+          .toneya-chat-avatar-icon::before {
+            font-size: 16px;
+          }
         }
 
         #toneya-chatbot-window {
@@ -495,10 +653,13 @@
       button.id = 'toneya-chatbot-button';
       button.className = 'pulse';
       button.innerHTML = `
-        <svg viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12c0 1.19.22 2.34.6 3.41l-1.6 4.82 4.82-1.6c1.07.38 2.22.6 3.41.6 5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.41 0-2.73-.36-3.88-1l-3.12 1.04 1.04-3.12c-.64-1.15-1-2.47-1-3.88 0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
-        </svg>
-        <div id="toneya-chatbot-badge">1</div>
+        <div class="toneya-chat-bubble">
+          チャットで<br>お問い合わせ
+        </div>
+        <div class="toneya-chat-avatar">
+          <div class="toneya-chat-avatar-icon"></div>
+          <div id="toneya-chatbot-badge">1</div>
+        </div>
       `;
       document.body.appendChild(button);
 

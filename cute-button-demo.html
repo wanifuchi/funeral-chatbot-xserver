@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>とね屋チャットボット - 新デザイン</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .demo-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #2b4c7d;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .feature {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2b4c7d;
+        }
+        
+        .feature h3 {
+            color: #2b4c7d;
+            margin: 0 0 10px 0;
+        }
+        
+        .feature p {
+            color: #666;
+            margin: 0;
+        }
+        
+        .demo-info {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .demo-info h3 {
+            color: #2b4c7d;
+            margin: 0 0 10px 0;
+        }
+        
+        .demo-info p {
+            color: #666;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎨 とね屋チャットボット</h1>
+        <p class="subtitle">新しい可愛いデザインのチャットボタン</p>
+        
+        <div class="demo-info">
+            <h3>✨ 今すぐ試してみてください！</h3>
+            <p>右下に新しいデザインのチャットボタンが表示されています。<br>
+            吹き出しとアバターが自然に浮遊して、とても可愛い見た目になりました。</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>💬 吹き出しデザイン</h3>
+                <p>「チャットでお問い合わせ」のテキストが入った可愛い吹き出し</p>
+            </div>
+            
+            <div class="feature">
+                <h3>👤 アバターアイコン</h3>
+                <p>丸い白背景に チャットアイコンが入った親しみやすいデザイン</p>
+            </div>
+            
+            <div class="feature">
+                <h3>✨ 浮遊アニメーション</h3>
+                <p>吹き出しとアバターが自然に上下に浮遊する可愛い動き</p>
+            </div>
+            
+            <div class="feature">
+                <h3>📱 レスポンシブ対応</h3>
+                <p>スマートフォンでも最適化された表示で使いやすく</p>
+            </div>
+        </div>
+        
+        <div class="demo-info">
+            <h3>🚀 主な改善点</h3>
+            <p>従来の単純な円形ボタンから、親しみやすく目を引く吹き出し＋アバターデザインに変更。<br>
+            ユーザーがチャットを始めやすくなりました。</p>
+        </div>
+    </div>
+    
+    <!-- とね屋チャットボット -->
+    <script src="https://funeral-chatbot-xserver.vercel.app/toneya-chatbot.js"></script>
+    <script>
+        // チャットボットの初期化
+        ToneyaChatbot.init({
+            apiUrl: 'https://funeral-chatbot-xserver.vercel.app',
+            position: 'bottom-right',
+            primaryColor: '#2b4c7d',
+            companyName: 'とね屋のお葬式',
+            phoneNumber: '0120-000-000',
+            isDebugMode: false
+        });
+    </script>
+</body>
+</html>
