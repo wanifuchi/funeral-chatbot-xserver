@@ -765,21 +765,25 @@
     linkifyUrls: function(text) {
       // 信頼できるドメインのみリンク化
       const trustedDomains = ['kobami.biz', 'toneya-osohshiki.com'];
-      const urlRegex = /(https?:\/\/[^\s<>"']+)/g;
+      // より厳密なURL検出（句読点や文末を除外）
+      const urlRegex = /(https?:\/\/[^\s<>"'。、！？\n\r]+?)(?=[。、！？\s\n\r]|$)/g;
       
-      return text.replace(urlRegex, function(url) {
+      return text.replace(urlRegex, function(match, url) {
+        // URLの末尾から不要な文字を除去
+        const cleanUrl = url.replace(/[。、！？]+$/, '');
+        
         // ドメインチェック
         try {
-          const urlObj = new URL(url);
+          const urlObj = new URL(cleanUrl);
           const domain = urlObj.hostname.replace('www.', '');
           
           if (trustedDomains.some(trusted => domain.includes(trusted))) {
-            return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+            return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer">${cleanUrl}</a>`;
           }
         } catch (e) {
           // 無効なURL
         }
-        return url; // リンク化しない
+        return match; // リンク化しない
       });
     },
 
@@ -889,9 +893,14 @@
         button.className = 'toneya-quick-reply';
         button.textContent = reply;
         button.addEventListener('click', () => {
-          document.getElementById('toneya-chatbot-input').value = reply;
-          this.sendMessage();
+          // 既存のクイック返信ボタンを削除
           quickRepliesDiv.remove();
+          
+          // 入力フィールドに質問を設定
+          document.getElementById('toneya-chatbot-input').value = reply;
+          
+          // メッセージを送信
+          this.sendMessage();
         });
         quickRepliesDiv.appendChild(button);
       });
