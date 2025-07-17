@@ -514,14 +514,6 @@
           接続中...
         </div>
         <div id="toneya-chatbot-messages">
-          <div class="toneya-typing-indicator" id="toneya-typing-indicator">
-            <div class="toneya-typing-dots">
-              <div class="toneya-typing-dot"></div>
-              <div class="toneya-typing-dot"></div>
-              <div class="toneya-typing-dot"></div>
-            </div>
-            <span>入力中...</span>
-          </div>
         </div>
         <div id="toneya-chatbot-input-container">
           <form id="toneya-chatbot-input-form">
@@ -911,17 +903,34 @@
 
     // タイピングインジケーターを表示
     showTypingIndicator: function() {
-      const indicator = document.getElementById('toneya-typing-indicator');
-      indicator.style.display = 'flex';
+      // 既存のインジケーターを削除
+      this.hideTypingIndicator();
       
       const messagesContainer = document.getElementById('toneya-chatbot-messages');
+      
+      // 新しいタイピングインジケーターを動的に生成
+      const indicator = document.createElement('div');
+      indicator.className = 'toneya-typing-indicator';
+      indicator.id = 'toneya-typing-indicator';
+      indicator.innerHTML = `
+        <div class="toneya-typing-dots">
+          <div class="toneya-typing-dot"></div>
+          <div class="toneya-typing-dot"></div>
+          <div class="toneya-typing-dot"></div>
+        </div>
+        <span>入力中...</span>
+      `;
+      
+      // メッセージコンテナの最後に追加（ユーザーの質問の直後）
+      messagesContainer.appendChild(indicator);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     },
 
     // タイピングインジケーターを非表示
     hideTypingIndicator: function() {
-      const indicator = document.getElementById('toneya-typing-indicator');
-      indicator.style.display = 'none';
+      // 動的に生成されたインジケーターを検索して削除
+      const indicators = document.querySelectorAll('.toneya-typing-indicator');
+      indicators.forEach(indicator => indicator.remove());
     },
 
     // テキストエリアの高さを調整
