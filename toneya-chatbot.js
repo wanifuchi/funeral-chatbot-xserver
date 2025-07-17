@@ -988,6 +988,49 @@
       });
     },
 
+    // 長文メッセージを適切に改行する関数
+    formatMessageText: function(text) {
+      let formatted = text;
+      
+      // 「です。」「ます。」などの文末表現の後に改行
+      formatted = formatted.replace(/(です|ます|ました|ません|でした|ございます|ください)。/g, function(match) {
+        return match + '\n';
+      });
+      
+      // その他の句点の後に改行（数字やURLの直後は除く）
+      formatted = formatted.replace(/。(?![\d）\)])/g, '。\n');
+      
+      // 価格表示（円）の後に改行
+      formatted = formatted.replace(/(\d+円)（[^）]+）/g, function(match) {
+        return match + '\n';
+      });
+      
+      // 「〜です。」の後に改行
+      formatted = formatted.replace(/です。(?!\n)/g, 'です。\n');
+      
+      // 箇条書き記号の前に改行を追加
+      formatted = formatted.replace(/([。\n])([・●◆🔸])/g, '$1\n$2');
+      
+      // サービス内容の列挙部分で読点が続く場合の改行
+      formatted = formatted.replace(/、([^、]{10,})、([^、]{10,})、/g, function(match, p1, p2) {
+        return '、' + p1 + '、\n' + p2 + '、';
+      });
+      
+      // 電話番号の前後で改行
+      formatted = formatted.replace(/([。、])(お電話|電話)/g, '$1\n$2');
+      formatted = formatted.replace(/([(（]0120-\d{3}-\d{3}[)）])/g, function(match) {
+        return '\n' + match;
+      });
+      
+      // 連続する改行を最大2つまでに制限
+      formatted = formatted.replace(/\n\n\n+/g, '\n\n');
+      
+      // 行頭・行末の空白を削除
+      formatted = formatted.split('\n').map(line => line.trim()).join('\n');
+      
+      return formatted.trim();
+    },
+
     // 知識ベースを読み込む関数
     loadKnowledgeBase: async function() {
       if (this.knowledgeBase) return this.knowledgeBase;
@@ -1108,9 +1151,12 @@
       // URLをリンク化
       const linkedText = this.linkifyUrls(text);
       
+      // botメッセージの場合は改行処理を適用
+      const formattedText = sender === 'bot' ? this.formatMessageText(linkedText) : linkedText;
+      
       messageDiv.innerHTML = `
         <div class="toneya-message-content">
-          ${linkedText.replace(/\n/g, '<br>')}
+          ${formattedText.replace(/\n/g, '<br>')}
           <div class="toneya-message-time">${timeStr}</div>
         </div>
       `;
