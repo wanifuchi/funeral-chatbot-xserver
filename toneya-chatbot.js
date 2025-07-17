@@ -765,12 +765,12 @@
     linkifyUrls: function(text) {
       // 信頼できるドメインのみリンク化
       const trustedDomains = ['kobami.biz', 'toneya-osohshiki.com'];
-      // より厳密なURL検出（句読点や文末を除外）
-      const urlRegex = /(https?:\/\/[^\s<>"'。、！？\n\r]+?)(?=[。、！？\s\n\r]|$)/g;
+      // より厳密なURL検出（句読点、括弧、日本語文字を除外）
+      const urlRegex = /(https?:\/\/[a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=%]+?)(?=[。、！？\s\n\r）)です。から]|$)/g;
       
       return text.replace(urlRegex, function(match, url) {
         // URLの末尾から不要な文字を除去
-        const cleanUrl = url.replace(/[。、！？]+$/, '');
+        const cleanUrl = url.replace(/[。、！？）)]+$/, '');
         
         // ドメインチェック
         try {
