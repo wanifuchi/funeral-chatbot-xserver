@@ -116,7 +116,7 @@
         /* とね屋チャットボット CSS */
         #toneya-chatbot-button {
           position: fixed;
-          ${this.config.position === 'bottom-right' ? 'right: 20px; bottom: 20px;' : 'left: 20px; bottom: 20px;'}
+          ${this.config.position === 'bottom-right' ? 'right: 20px; bottom: 80px;' : 'left: 20px; bottom: 80px;'}
           width: auto;
           height: auto;
           background: transparent;
@@ -282,7 +282,7 @@
         /* レスポンシブ対応 */
         @media (max-width: 768px) {
           #toneya-chatbot-button {
-            ${this.config.position === 'bottom-right' ? 'right: 15px; bottom: 15px;' : 'left: 15px; bottom: 15px;'}
+            ${this.config.position === 'bottom-right' ? 'right: 15px; bottom: 70px;' : 'left: 15px; bottom: 70px;'}
           }
           
           .toneya-chat-bubble {
@@ -329,7 +329,7 @@
         #toneya-chatbot-window {
           position: fixed;
           ${this.config.position === 'bottom-right' ? 'right: 20px;' : 'left: 20px;'}
-          bottom: 100px;
+          bottom: 160px;
           width: 380px;
           height: 550px;
           background-color: white;
