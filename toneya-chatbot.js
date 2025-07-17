@@ -67,6 +67,9 @@
     // IME入力状態フラグ
     isComposing: false,
 
+    // 知識ベース（レコメンド質問用）
+    knowledgeBase: null,
+
     // 初期化
     init: function(customConfig) {
       if (this.initialized) return;
@@ -88,10 +91,12 @@
       // API接続テスト
       this.testApiConnection();
       
-      // ウェルカムメッセージを表示
-      setTimeout(() => {
-        this.addMessage(this.config.welcomeMessage, 'bot');
-      }, 1000);
+      // 知識ベースを読み込んでからウェルカムメッセージを表示
+      this.loadKnowledgeBase().then(() => {
+        setTimeout(() => {
+          this.addMessage(this.config.welcomeMessage, 'bot');
+        }, 1000);
+      });
 
       this.initialized = true;
 
@@ -441,6 +446,23 @@
           transform: translateY(-1px);
         }
 
+        /* メッセージ内リンクのスタイル */
+        .toneya-message-content a {
+          color: ${this.config.primaryColor};
+          text-decoration: underline;
+          font-weight: 500;
+          transition: color 0.3s ease;
+        }
+
+        .toneya-message-content a:hover {
+          color: #1e3a5f;
+          text-decoration: none;
+        }
+
+        .toneya-message-content a:visited {
+          color: #5a7ab8;
+        }
+
         /* スクロールバーのスタイル */
         #toneya-chatbot-messages::-webkit-scrollbar {
           width: 6px;
@@ -516,15 +538,8 @@
       `;
       document.body.appendChild(chatWindow);
 
-      // クイック返信ボタンを追加
-      setTimeout(() => {
-        this.addQuickReplies([
-          '料金を教えて',
-          '家族葬について',
-          '直葬について',
-          '会員制度について'
-        ]);
-      }, 2000);
+      // 初回のクイック返信ボタンを追加（ウェルカムメッセージ後に追加される）
+      // addMessage('bot')で自動的に追加されるため、ここでは削除
     },
 
     // イベントリスナーを設定
@@ -746,6 +761,68 @@
         });
     },
 
+    // URLを検出してリンク化する関数
+    linkifyUrls: function(text) {
+      // 信頼できるドメインのみリンク化
+      const trustedDomains = ['kobami.biz', 'toneya-osohshiki.com'];
+      const urlRegex = /(https?:\/\/[^\s<>"']+)/g;
+      
+      return text.replace(urlRegex, function(url) {
+        // ドメインチェック
+        try {
+          const urlObj = new URL(url);
+          const domain = urlObj.hostname.replace('www.', '');
+          
+          if (trustedDomains.some(trusted => domain.includes(trusted))) {
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+          }
+        } catch (e) {
+          // 無効なURL
+        }
+        return url; // リンク化しない
+      });
+    },
+
+    // 知識ベースを読み込む関数
+    loadKnowledgeBase: async function() {
+      if (this.knowledgeBase) return this.knowledgeBase;
+      
+      try {
+        const response = await fetch(new URL('/api/knowledge', this.config.apiUrl || window.location.origin).href);
+        if (response.ok) {
+          this.knowledgeBase = await response.json();
+        }
+      } catch (error) {
+        console.log('知識ベースの読み込みに失敗しました:', error);
+      }
+      return this.knowledgeBase;
+    },
+
+    // レコメンド質問を取得する関数
+    getRecommendedQuestions: function(lastMessage) {
+      if (!this.knowledgeBase || !this.knowledgeBase.recommendedQuestions) {
+        return [
+          '料金を教えて',
+          '家族葬について',
+          '直葬について',
+          '会員制度について'
+        ];
+      }
+
+      const { recommendedQuestions, questionMapping } = this.knowledgeBase;
+      
+      // キーワードマッピングから適切なカテゴリを判定
+      if (questionMapping && questionMapping.keywords) {
+        for (const [keyword, category] of Object.entries(questionMapping.keywords)) {
+          if (lastMessage.includes(keyword)) {
+            return recommendedQuestions[category] || recommendedQuestions.general;
+          }
+        }
+      }
+      
+      return recommendedQuestions.general || recommendedQuestions[Object.keys(recommendedQuestions)[0]];
+    },
+
     // メッセージを追加
     addMessage: function(text, sender) {
       const messagesContainer = document.getElementById('toneya-chatbot-messages');
@@ -755,15 +832,50 @@
       const now = new Date();
       const timeStr = now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
       
+      // URLをリンク化
+      const linkedText = this.linkifyUrls(text);
+      
       messageDiv.innerHTML = `
         <div class="toneya-message-content">
-          ${text.replace(/\n/g, '<br>')}
+          ${linkedText.replace(/\n/g, '<br>')}
           <div class="toneya-message-time">${timeStr}</div>
         </div>
       `;
       
       messagesContainer.appendChild(messageDiv);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      
+      // botメッセージの場合、レコメンド質問を追加
+      if (sender === 'bot') {
+        setTimeout(() => {
+          this.addRecommendedQuestions(text);
+        }, 500);
+      }
+    },
+
+    // レコメンド質問を追加
+    addRecommendedQuestions: function(lastBotMessage) {
+      // 既存のレコメンド質問を削除
+      const existingQuestions = document.querySelectorAll('.toneya-quick-replies');
+      existingQuestions.forEach(q => q.remove());
+      
+      const questions = this.getRecommendedQuestions(lastBotMessage);
+      
+      // ランダムに3-4個選択
+      const selectedQuestions = this.shuffleArray([...questions]).slice(0, Math.min(4, questions.length));
+      
+      if (selectedQuestions.length > 0) {
+        this.addQuickReplies(selectedQuestions);
+      }
+    },
+
+    // 配列をシャッフルする関数
+    shuffleArray: function(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
     },
 
     // クイック返信を追加
