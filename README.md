@@ -5,7 +5,7 @@ Google Analytics式のJSタグ埋め込みで簡単導入できる、葬儀サ�
 ## 🌟 システム概要
 
 - **フロントエンド**: XSERVER (JavaScript埋め込み)
-- **バックエンド**: Vercel (Node.js + Express)
+- **バックエンド**: Vercel Functions (サーバーレス)
 - **AI エンジン**: Google Gemini API
 - **導入方法**: Google Analytics のようなJSタグ貼り付け
 
@@ -13,7 +13,7 @@ Google Analytics式のJSタグ埋め込みで簡単導入できる、葬儀サ�
 
 ### 1. バックエンドのデプロイ
 
-#### Vercelでのデプロイ
+#### Vercel Functionsでのデプロイ
 1. [Vercel](https://vercel.com/)にログイン
 2. 「New Project」をクリック
 3. このGitHubリポジトリをインポート
@@ -24,6 +24,8 @@ Google Analytics式のJSタグ埋め込みで簡単導入できる、葬儀サ�
    NODE_ENV=production
    ```
 5. 「Deploy」をクリック
+
+📋 **詳細なデプロイ手順**: [VERCEL-FUNCTIONS-DEPLOY-GUIDE.md](./VERCEL-FUNCTIONS-DEPLOY-GUIDE.md) を参照
 
 ### 2. XSERVERへの導入
 

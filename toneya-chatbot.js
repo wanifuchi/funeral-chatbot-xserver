@@ -21,13 +21,13 @@
 
   // 設定のデフォルト値
   const DEFAULT_CONFIG = {
-    apiUrl: 'http://localhost:3000',
+    apiUrl: 'https://your-project.vercel.app',
     position: 'bottom-right',
     primaryColor: '#2b4c7d',
     companyName: 'とね屋のお葬式',
     phoneNumber: '0120-000-000',
     welcomeMessage: 'こんにちは。とね屋のお葬式です。\\n\\n料金やプランについて、具体的にお答えいたします。\\nお気軽にご質問ください。',
-    maxRetries: 3,
+    maxRetries: 2,
     retryDelay: 1000,
     isDebugMode: false,
     autoInit: true
@@ -616,9 +616,9 @@
 
     // APIにメッセージを送信
     sendToAPI: function(message) {
-      const apiUrl = `${this.config.apiUrl}/api/chat`;
+      const apiUrl = new URL('/api/chat', this.config.apiUrl || window.location.origin).href;
       
-      fetch(apiUrl, {
+      this.fetchWithRetry(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -627,21 +627,71 @@
           question: message
         })
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
         this.hideTypingIndicator();
         
         if (data.answer) {
           this.addMessage(data.answer, 'bot');
         } else {
-          this.addMessage('申し訳ございません。システムエラーが発生しました。お電話（0120-000-000）でお問い合わせください。', 'bot');
+          this.addMessage('申し訳ございません。システムエラーが発生しました。お電話（' + this.config.phoneNumber + '）でお問い合わせください。', 'bot');
         }
       })
       .catch(error => {
         this.hideTypingIndicator();
         console.error('API Error:', error);
-        this.addMessage('申し訳ございません。接続エラーが発生しました。\\n\\nお急ぎの場合は、お電話（0120-000-000）でお問い合わせください。', 'bot');
+        this.handleApiError(error);
       });
+    },
+
+    // リトライ機能付きfetch
+    fetchWithRetry: function(url, options, retryCount = 0) {
+      return fetch(url, options)
+        .then(response => {
+          if (!response.ok && retryCount < this.config.maxRetries) {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                this.fetchWithRetry(url, options, retryCount + 1)
+                  .then(resolve)
+                  .catch(reject);
+              }, this.config.retryDelay);
+            });
+          }
+          return response;
+        })
+        .catch(error => {
+          if (retryCount < this.config.maxRetries) {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                this.fetchWithRetry(url, options, retryCount + 1)
+                  .then(resolve)
+                  .catch(reject);
+              }, this.config.retryDelay);
+            });
+          }
+          throw error;
+        });
+    },
+
+    // エラーハンドリング
+    handleApiError: function(error) {
+      let errorMessage = '申し訳ございません。';
+      
+      if (error.message.includes('HTTP error! status: 5')) {
+        errorMessage += 'サーバーに問題が発生しています。\\n\\nしばらく時間をおいてから再度お試しください。';
+      } else if (error.message.includes('HTTP error! status: 4')) {
+        errorMessage += 'リクエストに問題があります。\\n\\nページを再読み込みしてお試しください。';
+      } else {
+        errorMessage += '接続エラーが発生しました。\\n\\nネットワーク接続を確認してください。';
+      }
+      
+      errorMessage += '\\n\\nお急ぎの場合は、お電話（' + this.config.phoneNumber + '）でお問い合わせください。';
+      this.addMessage(errorMessage, 'bot');
     },
 
     // API接続テスト
@@ -649,8 +699,15 @@
       const statusElement = document.getElementById('toneya-chatbot-connection-status');
       const statusIcon = document.getElementById('toneya-chatbot-status');
       
-      fetch(`${this.config.apiUrl}/api/health`)
-        .then(response => response.json())
+      const healthUrl = new URL('/api/health', this.config.apiUrl || window.location.origin).href;
+      
+      fetch(healthUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
         .then(data => {
           if (data.status === 'OK') {
             statusElement.textContent = 'オンライン';
