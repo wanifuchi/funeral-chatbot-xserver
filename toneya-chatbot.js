@@ -64,6 +64,9 @@
     // 初期化フラグ
     initialized: false,
 
+    // IME入力状態フラグ
+    isComposing: false,
+
     // 初期化
     init: function(customConfig) {
       if (this.initialized) return;
@@ -336,6 +339,12 @@
           transform: none;
         }
 
+        #toneya-chatbot-send.composing {
+          background-color: #9e9e9e;
+          cursor: default;
+          opacity: 0.7;
+        }
+
         .toneya-typing-indicator {
           display: none;
           align-items: center;
@@ -495,7 +504,7 @@
         <div id="toneya-chatbot-input-container">
           <form id="toneya-chatbot-input-form">
             <textarea id="toneya-chatbot-input" 
-                      placeholder="ご質問をどうぞ..." 
+                      placeholder="ご質問をどうぞ（Enterで送信）..." 
                       rows="1"></textarea>
             <button type="submit" id="toneya-chatbot-send">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -547,9 +556,21 @@
         this.adjustTextareaHeight();
       });
 
-      // Enterキーでの送信
+      // IME入力開始
+      input.addEventListener('compositionstart', () => {
+        this.isComposing = true;
+        this.updateSendButtonState();
+      });
+
+      // IME入力終了
+      input.addEventListener('compositionend', () => {
+        this.isComposing = false;
+        this.updateSendButtonState();
+      });
+
+      // Enterキーでの送信（IME対応）
       input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
+        if (e.key === 'Enter' && !e.shiftKey && !this.isComposing) {
           e.preventDefault();
           this.sendMessage();
         }
@@ -787,6 +808,18 @@
       const textarea = document.getElementById('toneya-chatbot-input');
       textarea.style.height = 'auto';
       textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+    },
+
+    // 送信ボタンの状態を更新
+    updateSendButtonState: function() {
+      const sendButton = document.getElementById('toneya-chatbot-send');
+      if (this.isComposing) {
+        sendButton.classList.add('composing');
+        sendButton.title = '日本語入力中...';
+      } else {
+        sendButton.classList.remove('composing');
+        sendButton.title = 'メッセージを送信';
+      }
     }
   };
 
