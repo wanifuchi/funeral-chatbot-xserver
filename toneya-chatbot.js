@@ -21,7 +21,7 @@
 
   // 設定のデフォルト値
   const DEFAULT_CONFIG = {
-    apiUrl: 'https://your-project.vercel.app',
+    apiUrl: 'https://funeral-chatbot-xserver.vercel.app',
     position: 'bottom-right',
     primaryColor: '#2b4c7d',
     companyName: 'とね屋のお葬式',
