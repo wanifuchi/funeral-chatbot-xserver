@@ -82,6 +82,9 @@
         Object.assign(this.config, customConfig);
       }
 
+      // モバイル用viewport設定を強化
+      this.enhanceViewportForMobile();
+
       // CSSを挿入
       this.injectStyles();
       
@@ -106,6 +109,33 @@
       // デバッグモードの場合、コンソールに情報を表示
       if (this.config.isDebugMode) {
         console.log('ToneyaChatbot initialized with config:', this.config);
+      }
+    },
+
+    // モバイル用viewport設定を強化
+    enhanceViewportForMobile: function() {
+      // 既存のviewportメタタグを取得または作成
+      let viewport = document.querySelector('meta[name="viewport"]');
+      if (!viewport) {
+        viewport = document.createElement('meta');
+        viewport.name = 'viewport';
+        document.head.appendChild(viewport);
+      }
+      
+      // モバイル拡大防止の設定
+      viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no';
+      
+      // iOS Safari対応の追加設定
+      if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+        const appleWebAppCapable = document.createElement('meta');
+        appleWebAppCapable.name = 'apple-mobile-web-app-capable';
+        appleWebAppCapable.content = 'yes';
+        document.head.appendChild(appleWebAppCapable);
+        
+        const appleWebAppStatusBar = document.createElement('meta');
+        appleWebAppStatusBar.name = 'apple-mobile-web-app-status-bar-style';
+        appleWebAppStatusBar.content = 'default';
+        document.head.appendChild(appleWebAppStatusBar);
       }
     },
 
@@ -467,12 +497,15 @@
           border: 1px solid #ddd;
           border-radius: 20px;
           padding: 10px 16px;
-          font-size: 14px;
+          font-size: 16px;
           outline: none;
           resize: none;
           min-height: 20px;
           max-height: 100px;
           font-family: inherit;
+          -webkit-text-size-adjust: 100%;
+          -webkit-appearance: none;
+          transform: translateZ(0);
         }
 
         #toneya-chatbot-input:focus {
@@ -737,6 +770,15 @@
       input.addEventListener('compositionend', () => {
         this.isComposing = false;
         this.updateSendButtonState();
+      });
+
+      // モバイル拡大防止の追加対策
+      input.addEventListener('focus', () => {
+        this.preventMobileZoom();
+      });
+      
+      input.addEventListener('blur', () => {
+        this.restoreMobileZoom();
       });
 
       // Enterキーでの送信（IME対応）
@@ -1190,6 +1232,22 @@
       } else {
         sendButton.classList.remove('composing');
         sendButton.title = 'メッセージを送信';
+      }
+    },
+
+    // モバイル拡大防止
+    preventMobileZoom: function() {
+      const viewport = document.querySelector('meta[name="viewport"]');
+      if (viewport) {
+        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no';
+      }
+    },
+
+    // モバイル拡大復元
+    restoreMobileZoom: function() {
+      const viewport = document.querySelector('meta[name="viewport"]');
+      if (viewport) {
+        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no';
       }
     }
   };
