@@ -1,7 +1,10 @@
 {
   "companyInfo": {
-    "name": "とね屋のお葬式",
+    "officialName": "葬儀社とね屋",
+    "brandName": "とね屋のお葬式",
     "website": "https://kobami.biz/toneya_osohshiki/",
+    "address": "〒171-0014 東京都豊島区池袋2-13-4 天翔池袋西口ビル",
+    "established": "2016年10月1日",
     "motto": "顧客満足度No.1を目指す",
     "mission": "人と人とのふれあいを大切に、皆様の心に残る仕事をつくる",
     "description": "エンディング業界に特化したWebコンサルティングとシステム開発を行う会社",
@@ -19,7 +22,11 @@
     },
     "business": {
       "specialization": "エンディング業界特化",
-      "services": ["Webコンサルティング", "システム開発"],
+      "services": [
+        "Webコンサルティング",
+        "SEM運用",
+        "Webサイト開発・運用"
+      ],
       "philosophy": "WebとSystemの2つの軸で、お客様とともに地域No1を目指す",
       "approach": "WebとSystemは、売上貢献のための一つの手段"
     }
@@ -29,6 +36,7 @@
     "supportHours": "24時間365日対応",
     "consultation": "無料",
     "resourceRequest": "無料",
+    "resourceRequestMethod": "Webフォーム（お問い合わせ／資料請求ページ）より受付",
     "features": ["通話無料", "年中無休", "フリーダイヤル"],
     "staffRoles": [
       {"name": "たなか", "role": "葬儀コンシェルジュ"},
@@ -42,18 +50,50 @@
         "id": "direct_cremation",
         "name": "直葬/火葬式",
         "url": "https://kobami.biz/toneya_osohshiki/plan/kasou/",
-        "description": "通夜式・告別式を行わず、火葬のみを行うシンプルなプラン",
-        "generalPrice": "140,800円〜",
-        "memberPrice": "128,000円〜",
-        "features": [
-          "祭壇を飾らず参列者も招かない",
-          "葬儀費用を抑えることができる",
-          "経済的負担が少ない"
-        ],
+        "description": "通夜式や告別式等の儀式を行わず、火葬のみを行うシンプルなプラン。参列者を招かず祭壇も飾らないため費用を抑えられ、経済的負担が少ない形式",
         "suitableFor": [
           "葬儀費用をできるだけ抑えたい方",
-          "家族・近親者のみでお見送りしたい方",
-          "火葬のみでもお坊さんに供養してもらいたい方"
+          "家族・近親者のみで見送りたい方",
+          "火葬のみでも僧侶の供養を希望する方"
+        ],
+        "process": "ご逝去（お迎え）→ ご安置 → 納棺 → 火葬。当日中に全行程を完了します",
+        "includedServices": ["ご遺体お迎え", "ご安置", "納棺", "火葬手配"],
+        "excludedServices": ["通夜", "告別式"],
+        "subPlans": [
+          {
+            "name": "直葬/火葬式 プラン3",
+            "targetParticipants": "約5名まで",
+            "duration": "最短（簡易プラン）",
+            "generalPrice": "70,000円（税込）〜",
+            "memberPrice": "39,000円（税込）〜",
+            "features": "最もシンプルなプラン"
+          },
+          {
+            "name": "直葬/火葬式 プラン2",
+            "targetParticipants": "約10名まで",
+            "duration": "半日（簡易な葬儀）",
+            "restingPlace": "自宅等",
+            "generalPrice": "100,000円（税込）〜",
+            "memberPrice": "89,000円（税込）〜",
+            "features": "納棺なしの簡素プラン、半日で完了"
+          },
+          {
+            "name": "直葬/火葬式 メインプラン",
+            "targetParticipants": "家族・近親者のみ",
+            "duration": "1日",
+            "generalPrice": "140,800円（税込）〜",
+            "memberPrice": "128,000円（税込）〜",
+            "features": "No.1人気プラン、通夜・告別式なし"
+          },
+          {
+            "name": "直葬/火葬式 ベーシック",
+            "targetParticipants": "約5名まで",
+            "duration": "1日で完了",
+            "restingPlace": "自宅または弊社ホール",
+            "generalPrice": "184,800円（税込）〜",
+            "memberPrice": "168,000円（税込）〜",
+            "features": "納棺込みの火葬式"
+          }
         ],
         "category": "低価格帯"
       },
@@ -61,59 +101,71 @@
         "id": "family_funeral",
         "name": "とね屋の家族葬",
         "url": "https://kobami.biz/toneya_osohshiki/plan/kazoku/",
-        "description": "通夜・告別式をお身内で行う家族葬プラン",
-        "generalPrice": "400,000円〜",
-        "memberPrice": "300,000円〜",
-        "plan1MemberPrice": "129,000円〜",
+        "description": "家族・親族を中心に少人数で執り行う一般的な家族葬プラン。通夜と告別式をお身内のみで行う内容で、低価格ながら必要なサービスを含みます",
+        "generalPrice": "400,000円（税込）〜",
+        "memberPrice": "300,000円（税込）〜",
+        "plan1MemberPrice": "129,000円（税込）〜",
         "features": [
-          "通夜・告別式をお身内で実施",
+          "通夜・告別式を小規模に実施",
+          "家族葬ホール等での少人数対応可",
           "プラン1として15名ほど対応",
           "1日葬儀・ご自宅安置対応"
         ],
+        "includedServices": ["ご遺体お迎え", "ご安置", "納棺", "通夜式", "告別式", "火葬手配"],
         "process": ["ご逝去", "お迎え", "ご安置", "納棺", "お通夜", "告別式", "火葬"],
+        "備考": "一般的な家族葬を低価格で提供。ご家族のみの参列を想定",
         "category": "中価格帯"
       },
       {
         "id": "one_day_funeral",
         "name": "とね屋の一日葬",
         "url": "https://kobami.biz/toneya_osohshiki/plan/ichinichisou/",
-        "description": "告別式のみを一日で行うプラン",
-        "generalPrice": "330,000円〜",
-        "memberPrice": "300,000円〜",
-        "plan1MemberPrice": "129,000円〜",
+        "description": "お通夜を省略し告別式のみを1日で行う葬儀プラン。短期間で葬儀を済ませたい方に適した形式",
+        "generalPrice": "330,000円（税込）〜",
+        "memberPrice": "300,000円（税込）〜",
+        "plan1MemberPrice": "129,000円（税込）〜",
         "features": [
-          "告別式のみを一日で実施",
+          "告別式のみを一日で執行",
           "おすすめプランとして推奨",
+          "通夜を行わないため時間と費用を節約",
           "15名ほど対応"
         ],
+        "includedServices": ["ご遺体お迎え", "ご安置", "納棺", "告別式", "火葬手配"],
+        "備考": "通夜を行わず告別式だけ執り行います。親族の負担を減らしたい場合に選ばれています",
         "category": "中価格帯"
       },
       {
         "id": "general_funeral",
         "name": "とね屋の一般葬",
         "url": "https://kobami.biz/toneya_osohshiki/plan/ippansou/",
-        "description": "一般的な葬儀を低価格で提供するプラン",
-        "generalPrice": "410,000円〜",
-        "memberPrice": "350,000円〜",
-        "plan1MemberPrice": "129,000円〜",
+        "description": "一般的な形式の葬儀を低価格で提供するプラン。通夜・告別式を含み、ご親族以外の参列にも対応します",
+        "generalPrice": "410,000円（税込）〜",
+        "memberPrice": "350,000円（税込）〜",
+        "plan1MemberPrice": "129,000円（税込）〜",
         "features": [
-          "一般的な葬儀スタイル",
+          "一般的な規模・内容の葬儀",
+          "ご親族以外の参列者にも対応可能",
           "低価格での提供",
           "15名ほど対応"
         ],
+        "includedServices": ["ご遺体お迎え", "ご安置", "納棺", "通夜式", "告別式", "火葬手配", "会葬者対応"],
+        "備考": "もっとも標準的な葬儀スタイルです。会葬者の規模に応じて式場をご案内します",
         "category": "中価格帯"
       },
       {
         "id": "home_funeral",
         "name": "自宅葬",
         "url": "https://kobami.biz/toneya_osohshiki/plan/jitakusou/",
-        "description": "自宅でゆっくりお見送りを行うプラン",
-        "generalPrice": "700,000円〜",
-        "memberPrice": "600,000円〜",
+        "description": "ご自宅に故人様をお迎えし、住み慣れた自宅で葬儀・お別れを行うプラン。ご自宅でゆっくりお見送りしたい方に適しています",
+        "generalPrice": "700,000円（税込）〜",
+        "memberPrice": "600,000円（税込）〜",
         "features": [
-          "自宅でゆっくりお見送り",
+          "自宅でのお見送りを実現",
+          "故人様との最後の時間を自宅で過ごせます",
           "慣れ親しんだ環境での葬儀"
         ],
+        "includedServices": ["ご遺体搬送（自宅へのお届け）", "自宅での安置・枕飾り", "自宅葬儀進行", "火葬手配"],
+        "備考": "自宅のスペース等に応じて実施可能か事前相談いたします",
         "category": "高価格帯"
       }
     ],
@@ -122,14 +174,19 @@
         "id": "welfare_funeral",
         "name": "生活保護葬",
         "url": "https://kobami.biz/toneya_osohshiki/plan/fukushi/",
-        "description": "生活保護を受給されている方のみが利用可能な葬儀プラン",
-        "selfPayment": "0円",
+        "description": "生活保護受給者の方を対象に、自治体の葬祭扶助制度を利用して自己負担0円で行う葬儀プラン",
+        "selfPayment": "0円（葬祭扶助により賄われます）",
+        "generalPrice": "自治体扶助",
+        "memberPrice": "自己負担0円",
         "features": [
-          "自治体の葬祭扶助を利用",
+          "自治体の葬祭扶助制度に対応",
+          "経済的負担が実質ありません",
           "必要最小限の内容",
           "条件に合えばどなたでも依頼可能"
         ],
+        "includedServices": ["葬祭扶助で認められた範囲の葬儀一式"],
         "process": ["お迎え", "ご安置", "納棺", "火葬", "収骨"],
+        "備考": "各市区町村の生活保護葬制度に基づき執り行います。事前に役所への申請が必要です",
         "category": "特別プラン",
         "eligibility": "生活保護受給者のみ対象"
       }
@@ -139,48 +196,91 @@
         "id": "corporate_funeral",
         "name": "社葬",
         "url": "https://kobami.biz/toneya_osohshiki/plan/shasou/",
-        "description": "会社が運営主体の葬儀",
-        "pricing": "要問い合わせ",
+        "description": "企業・団体が執り行う大規模な葬儀である「社葬」にも対応しています。会社代表者の葬儀等、規模に合わせた式場手配や運営サポートを行います",
+        "pricing": "規模・内容に応じお見積もり（要お問い合わせ）",
+        "features": [
+          "大規模葬儀の実施ノウハウ",
+          "社葬専用の進行サポートチームあり"
+        ],
+        "includedServices": ["社葬プランニング", "式場/会場手配", "会葬者案内・受付", "式進行", "記帳や供花の手配"],
+        "備考": "社葬の詳細は個別相談にて対応",
         "category": "企業葬"
       },
       {
         "id": "buddhist_funeral",
         "name": "仏式のご葬儀",
         "url": "https://kobami.biz/toneya_osohshiki/plan/bukkyou/",
-        "description": "仏教の宗旨で行われる葬儀",
-        "pricing": "要問い合わせ",
+        "description": "仏教の各宗派に対応した葬儀を執り行います",
+        "supportedSects": [
+          "天台宗", "真言宗", "浄土宗", "浄土真宗本願寺派（西）",
+          "浄土真宗東本願寺派（東）", "真宗大谷派", "日蓮宗", "法華宗",
+          "臨済宗", "曹洞宗", "時宗", "黄檗宗"
+        ],
+        "offeringFees": {
+          "directCremation": {
+            "withoutKaimyo": "50,000円〜（税込）",
+            "withKaimyo": "150,000円〜（税込）"
+          },
+          "oneDayFuneral": {
+            "withoutKaimyo": "150,000円〜（税込）",
+            "withKaimyo": "150,000円〜（税込）"
+          },
+          "generalFuneral": {
+            "withoutKaimyo": "200,000円〜（税込）",
+            "withKaimy_koji_daishi": "300,000円〜（税込）",
+            "withKaimyo_ingo": "600,000円〜（税込）"
+          }
+        },
+        "samplePlan": {
+          "name": "仏式葬儀プラン1",
+          "participants": "約15名",
+          "duration": "1日葬儀（告別式のみ）",
+          "generalPrice": "1,500,000円（税込）〜",
+          "memberPrice": "1,290,000円（税込）〜",
+          "content": "仏教形式での葬儀一式。僧侶の読経、戒名授与等を含む"
+        },
+        "notes": [
+          "お車代は別途",
+          "戒名授与には信士・信女（釋・釋尼）の戒名が含まれます",
+          "自分の宗派が不明な場合でも、電話ヒアリングで宗派の案内をいたします"
+        ],
         "category": "宗教葬"
       },
       {
         "id": "shinto_funeral",
         "name": "神式のご葬儀",
         "url": "https://kobami.biz/toneya_osohshiki/plan/shinshiki/",
-        "description": "神葬祭に対応した葬儀",
-        "pricing": "要問い合わせ",
+        "description": "神道形式の葬儀（神葬祭）に対応しています。神官を手配し、神式ならではの儀礼で葬儀を執り行います",
+        "generalPriceExample": "150,000円（税込）〜",
+        "memberPriceExample": "129,000円（税込）〜",
+        "features": "神式は玉串奉奠など独自の儀礼がありますが、専門スタッフがサポートします",
+        "priestReferral": "神社との連携により、神官の派遣・手配も行います",
         "category": "宗教葬"
       },
       {
         "id": "christian_funeral",
         "name": "キリスト教のご葬儀",
         "url": "https://kobami.biz/toneya_osohshiki/plan/christ/",
-        "description": "教派による違いにも対応したキリスト教の葬儀",
-        "pricing": "要問い合わせ",
+        "description": "キリスト教（主にプロテスタント）の葬儀に対応しています。牧師または神父を招いて聖書朗読や讃美歌による式次第で執り行います",
+        "supportedDenominations": ["キリスト教（プロテスタント）"],
+        "features": "教会での式、または式場でのキリスト教式葬儀のいずれも手配可能",
+        "clergyReferral": "提携する教会の牧師を紹介できます",
         "category": "宗教葬"
       },
       {
         "id": "soka_gakkai_funeral",
         "name": "創価学会のご葬儀",
         "url": "https://kobami.biz/toneya_osohshiki/plan/soukagakkai/",
-        "description": "友人葬に対応した創価学会の葬儀",
-        "pricing": "要問い合わせ",
+        "description": "創価学会友人葬に対応しています。学会の儀礼に則り、友人葬を進行します",
+        "features": "創価学会の信徒葬儀（友人葬）は、学会員の方が中心となる形式ですが、進行のサポートを行います。必要に応じて学会幹部との連絡調整もいたします",
         "category": "宗教葬"
       },
       {
         "id": "non_religious_funeral",
         "name": "無宗教のご葬儀",
         "url": "https://kobami.biz/toneya_osohshiki/plan/musyukyou/",
-        "description": "自由な形式で行われる無宗教の葬儀",
-        "pricing": "要問い合わせ",
+        "description": "宗教色を排した無宗教形式の葬儀にも対応可能です。お別れの会や音楽葬など、ご要望に応じて企画進行します",
+        "features": "儀式よりもお別れ会に重点を置き、宗教者を呼ばずに故人を偲ぶ式を執り行います。形式や進行は自由度が高く、ご遺族の意向を尊重します",
         "category": "宗教葬"
       }
     ]
@@ -203,7 +303,12 @@
       "kawasakiWards": ["川崎区", "幸区", "中原区", "高津区", "多摩区", "宮前区", "麻生区"],
       "sagamiharaWards": ["緑区", "中央区", "南区"],
       "otherCities": ["横須賀市", "平塚市", "厚木市", "愛甲郡愛川町", "愛甲郡清川村"]
-    }
+    },
+    "otherAreas": "埼玉・千葉 他: 首都圏近郊の式場も相談に応じます",
+    "searchMethods": [
+      "駅名から探す: 最寄り駅名から周辺斎場を検索可能なシステムを提供",
+      "エリアから探す: 市区町村エリアから斎場を検索可能"
+    ]
   },
   "facilities": {
     "ownFacilities": [
@@ -212,16 +317,37 @@
         "alternativeName": "にいたが長岡斎場",
         "url": "https://kobami.biz/toneya_osohshiki/hall/nagaoka/",
         "address": "新潟県中越蔵王1-3-18 天翔池袋西口ビル",
-        "access": "池袋駅から徒歩5分",
-        "pricing": "要問い合わせ"
+        "phone": "0120-006-462（通話無料）",
+        "access": "ほくほく大島駅から徒歩578分、池袋駅から徒歩5分",
+        "features": ["駐車場あり", "駅近く", "控室あり", "宿泊可", "付添い安置可", "バリアフリー"],
+        "detailedFacilities": {
+          "parking": "あり（最大3台）",
+          "crematorium": "併設なし（近隣の公営火葬場を利用：かわさき南部斎苑、臨海斎場）",
+          "visitation": "可能（※一部プラン除く）",
+          "overnight": "可能",
+          "restRoom": "あり",
+          "diningRoom": "あり（着席15名）",
+          "ceremonyRoom": "あり（着席15名）",
+          "bathroom": "なし",
+          "childcare": "なし",
+          "accessibility": "なし",
+          "nearbyFacilities": {
+            "convenience": "コンビニ（500m圏内）あり",
+            "restaurants": "飲食店（500m圏内）あり",
+            "accommodation": "宿泊施設（10km圏内）あり"
+          }
+        },
+        "notes": "※掲載データの一部はダミーです。実際の所在地は東京都池袋だが「長岡」と表記"
       },
       {
         "name": "家族葬ホール池袋",
         "alternativeName": "池袋斎場",
         "url": "https://kobami.biz/toneya_osohshiki/hall/家族葬ホール池袋（池袋斎場）/",
         "address": "東京都豊島区池袋2-13-4 天翔池袋西口ビル",
-        "access": "池袋駅から徒歩5分",
-        "pricing": "要問い合わせ"
+        "phone": "0120-000-000（代表窓口）",
+        "access": "池袋駅西口より徒歩5分",
+        "features": ["駅近", "少人数家族葬に特化"],
+        "facilities": ["控室・安置室完備", "会食スペース有り"]
       },
       {
         "name": "家族葬専用式場練馬高野台",
@@ -229,10 +355,40 @@
         "address": "東京都練馬区高野台",
         "access": "練馬ICから車で10分",
         "type": "家族葬専用式場",
-        "pricing": "要問い合わせ"
+        "features": ["駐車場完備", "練馬エリアの少人数葬向け"]
       }
     ],
+    "partnerFacilities": {
+      "tokyo": "23区内および周辺市町村の公営・民営斎場を多数ご紹介可能",
+      "kanagawa": "横浜市・川崎市・相模原市を中心に提携葬儀場あり"
+    },
     "searchOptions": ["エリアから探す", "路線から探す"]
+  },
+  "pricing": {
+    "basicInfo": "葬儀費用の総額はお見積り時に明確に提示します。ご契約前に項目ごとの費用を写真付きで説明し、必要に応じて取捨選択いただけます",
+    "paymentMethod": "葬儀費用のお支払いは後払いです。請求書発行後、1週間以内を目安に現金または指定の支払方法でお支払いください",
+    "paymentGracePeriod": "保険金利用や口座凍結等で1週間以上かかる場合は事前に相談可能です",
+    "onDayPayments": {
+      "offerings": "お布施: 式前に僧侶へ直接現金でお渡し。当社でお布施袋を用意します",
+      "crematoriumFees": "火葬場費用: 火葬料・火葬場での飲食代等は告別式後に斎場へ直接お支払い（当社が立替えて後日清算する場合もあり）"
+    },
+    "optionalServices": {
+      "meals": {
+        "japanese": "通夜振る舞い・精進落としの和食膳。季節の旬を取り入れ見た目にもこだわった日本料理",
+        "western": "洋風のケータリング料理。故人の好物なども盛り込む相談可",
+        "buffet": "温かい料理を温かいまま提供できるビュッフェ形式。多数の会葬者が集まる葬儀で好評",
+        "fullCourse": "参列者が決まっている場合はフルコース料理の手配も可能。最後のお食事をゆっくり召し上がれるよう提供"
+      },
+      "returnGifts": "会葬礼状や香典返し品など、各種取り揃え。品物はカタログから選択可能。お菓子やタオル等定番品から高級志向の品まで要望に応じ手配",
+      "encoffiningBathing": "ご遺体を専門の納棺師が清めのお化粧を施し、お棺にお納めする湯灌・納棺の儀もオプションで承ります",
+      "vehicles": "火葬場へ向かう霊柩車、会葬者用マイクロバス等の車両手配も可能です",
+      "others": "写真飾り、生花祭壇のグレードアップ、音楽演出、映像上映、供花・供物の手配等、多数ご用意"
+    },
+    "paymentFlow": [
+      "ご契約: 最終見積金額に納得後にご契約。見積書には全項目を明確に記載",
+      "ご葬儀施行: 葬儀施行中に発生するお布施・火葬料等は適宜お支払い",
+      "ご葬儀後: 葬儀後、請求書を発行。内容確認の上、1週間以内を目処に支払い。支払方法は現金振込等。延長希望時は相談"
+    ]
   },
   "services": {
     "mainFeatures": [
@@ -240,27 +396,27 @@
         "name": "3つの特徴",
         "url": "https://kobami.biz/toneya_osohshiki/about/reason/",
         "description": "多くのお客様からご指名いただく理由",
-        "details": "いつまでもこころに残る人生最後の時間をつくるお手伝い"
+        "details": "いつまでもこころに残る人生最後の時間をつくるお手伝い。価格の明確さ、地域密着の豊富な式場案内、経験豊富な葬儀コンシェルジュによるサポートを掲げています"
       },
       {
         "name": "事前相談",
         "url": "https://kobami.biz/toneya_osohshiki/about/jizen/",
         "description": "ホール見学、お電話・対面での事前相談を無料で提供",
-        "features": ["お葬式相談サロン開設", "ご不明点、ご不安ごとを解消"],
+        "features": ["お葬式相談サロン開設", "ご不明点、ご不安ごとを解消", "生前や万一の際の事前相談を無料で受付"],
         "pricing": "無料"
       },
       {
         "name": "アフターサポート",
         "url": "https://kobami.biz/toneya_osohshiki/about/after/",
         "description": "葬儀後の諸手続き、位牌作成、仏壇購入、お墓のご相談など",
-        "services": ["葬儀後の諸手続き", "位牌作成", "仏壇購入", "お墓のご相談"],
+        "services": ["葬儀後の諸手続き", "位牌作成", "仏壇購入", "お墓のご相談", "法要の準備", "相続に関するサポート"],
         "pricing": "要問い合わせ"
       },
       {
         "name": "葬儀の流れ",
         "url": "https://kobami.biz/toneya_osohshiki/about/flow/",
         "description": "初めての葬儀に慌てないための基本的な葬儀の流れを説明",
-        "purpose": "基本的な葬儀の流れを分かりやすく説明"
+        "purpose": "ご臨終から葬儀終了までの一般的な流れを案内。ご逝去後の連絡 → ご遺体搬送 → ご安置 → 打合せ → 通夜・告別式 → 火葬 → アフターサポートの順に詳しく説明"
       },
       {
         "name": "供花・供物のご注文",
@@ -279,13 +435,14 @@
           "檀家になる必要がない",
           "単発でのご依頼が可能"
         ],
+        "additionalSupport": "僧侶の他、神官や牧師の紹介も可能。地域や宗派によって紹介が難しい場合もあります",
         "pricing": "定額制"
       },
       {
         "name": "お葬式がはじめての方へ",
         "url": "https://kobami.biz/toneya_osohshiki/about/firsttime/",
         "description": "初めての葬儀で不安に感じられる方向けの詳しい解説",
-        "content": "お客様からよく聞くお悩みをもとに詳しく解説"
+        "content": "お客様からよく聞くお悩みをもとに詳しく解説。葬儀社のサービス内容や準備事項を分かりやすく説明"
       }
     ],
     "promises": [
@@ -300,22 +457,26 @@
       {
         "name": "無料Web会員",
         "url": "https://kobami.biz/toneya_osohshiki/member/request/",
-        "description": "3万円相当のグレードアップをサービス",
+        "description": "インターネットから無料で登録可能な会員制度。万一の際に3万円相当のグレードアップサービス（例：祭壇や料理のランクアップ等）を受けられます",
         "benefits": [
           "葬儀ご依頼の際に3万円相当のグレードアップ",
           "もしもの時の備えにご活用"
         ],
+        "registrationMethod": "WEB上の「無料会員登録フォーム」から事前登録",
         "pricing": "無料"
       },
       {
         "name": "とね屋倶楽部",
         "url": "https://kobami.biz/toneya_osohshiki/member/toneya/",
-        "description": "もしもの時に備えた会員制度",
+        "description": "葬儀に備えた有料会員制度。「とね屋倶楽部」会員にご加入いただくと、葬儀費用の特別割引や各種優待サービスが受けられます",
         "features": [
           "ご葬儀の流れや費用を明確に",
           "ご家族の気持ちに寄り添う",
-          "安心してご葬儀をしていただける"
+          "安心してご葬儀をしていただける",
+          "会員限定プラン割引",
+          "葬儀事前準備サポート等"
         ],
+        "applicationMethod": "所定の申込用紙またはWEBフォーム（とね屋倶楽部会員申し込みフォーム）より受付",
         "pricing": "要問い合わせ"
       }
     ],
@@ -374,7 +535,7 @@
       {
         "name": "緊急時のご連絡",
         "url": "https://kobami.biz/toneya_osohshiki/hurry/",
-        "description": "緊急時の連絡フォーム"
+        "description": "緊急時の連絡フォーム。故人がご逝去直後の手順を案内。まずは0120番号へ電話いただくよう案内。24時間迅速に寝台車手配など対応"
       }
     ],
     "searchTools": [
@@ -392,19 +553,37 @@
     "consultation": {
       "staffMessage": "お葬式について何を相談したらいいのかわからない方でも、24時間365日お葬式のお悩みやご相談を承っております。なかなか周りにご相談できない場合もお気軽にお電話ください。全力でお客様のお葬式のサポートをいたします。",
       "availability": "24時間365日",
-      "cost": "無料"
+      "cost": "無料",
+      "methods": ["電話", "フォーム", "来社相談（要予約）"]
     }
   },
   "customerSupport": {
     "faq": {
       "url": "https://kobami.biz/toneya_osohshiki/faq/",
       "description": "お客様からよくいただく質問と回答",
+      "categories": [
+        "スタイルについて（葬儀形式に関する質問）",
+        "一日葬（1日葬に関する質問）",
+        "一般葬（一般葬に関する質問）",
+        "仏式のご葬儀（仏式葬儀に関する質問）",
+        "創価学会のご葬儀（創価学会葬に関する質問）",
+        "家族葬（家族葬全般に関する質問）",
+        "無宗教のご葬儀（無宗教葬に関する質問）",
+        "生活保護葬（葬祭扶助利用葬に関する質問）",
+        "直葬・火葬式（直葬に関する質問）",
+        "社葬（社葬に関する質問）",
+        "葬儀の事前準備について（事前に準備すべき事項）",
+        "お見積（見積りに関する質問）",
+        "対面相談（相談方法に関する質問）",
+        "準備する物（葬儀までに用意する物に関する質問）"
+      ],
       "specialItems": [
         "一日葬のお見積について",
         "各プランの詳細について",
         "費用・支払いについて",
         "宗教・宗派について"
-      ]
+      ],
+      "note": "現在、具体的な質問と回答の掲載は準備中（テストデータのみ存在）です。お問い合わせの多い内容について順次公開予定"
     },
     "customerVoices": {
       "url": "https://kobami.biz/toneya_osohshiki/voice/",
