@@ -5,9 +5,6 @@
       "maxDuration": 30
     }
   },
-  "limits": {
-    "maxRequestBodySize": "2mb"
-  },
   "headers": [
     {
       "source": "/api/(.*)",
