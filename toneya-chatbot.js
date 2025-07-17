@@ -70,6 +70,9 @@
     // 知識ベース（レコメンド質問用）
     knowledgeBase: null,
 
+    // 直前のユーザー質問を保存（レコメンド質問用）
+    lastUserQuestion: null,
+
     // 初期化
     init: function(customConfig) {
       if (this.initialized) return;
@@ -628,6 +631,9 @@
       
       if (!message) return;
       
+      // ユーザーの質問を保存（レコメンド質問用）
+      this.lastUserQuestion = message;
+      
       // ユーザーメッセージを表示
       this.addMessage(message, 'user');
       
@@ -794,8 +800,8 @@
       return this.knowledgeBase;
     },
 
-    // レコメンド質問を取得する関数
-    getRecommendedQuestions: function(lastMessage) {
+    // レコメンド質問を取得する関数（直前のユーザー質問に基づく）
+    getRecommendedQuestions: function(lastBotMessage) {
       if (!this.knowledgeBase || !this.knowledgeBase.recommendedQuestions) {
         return [
           '料金を教えて',
@@ -806,17 +812,85 @@
       }
 
       const { recommendedQuestions, questionMapping } = this.knowledgeBase;
+      const userQuestion = this.lastUserQuestion || '';
       
-      // キーワードマッピングから適切なカテゴリを判定
+      // 1. 直前のユーザー質問に基づく関連質問を優先
+      const relatedQuestions = this.getRelatedQuestions(userQuestion, recommendedQuestions);
+      if (relatedQuestions.length > 0) {
+        return relatedQuestions;
+      }
+      
+      // 2. bot回答に基づくカテゴリ判定（フォールバック）
       if (questionMapping && questionMapping.keywords) {
         for (const [keyword, category] of Object.entries(questionMapping.keywords)) {
-          if (lastMessage.includes(keyword)) {
+          if (lastBotMessage.includes(keyword)) {
             return recommendedQuestions[category] || recommendedQuestions.general;
           }
         }
       }
       
+      // 3. デフォルトの一般的な質問
       return recommendedQuestions.general || recommendedQuestions[Object.keys(recommendedQuestions)[0]];
+    },
+
+    // 特定の質問に関連する質問を取得
+    getRelatedQuestions: function(userQuestion, recommendedQuestions) {
+      const lowerQuestion = userQuestion.toLowerCase();
+      
+      // 具体的な関連質問マッピング
+      const relatedMapping = {
+        // 料金関連
+        '料金': ['一番安いプランは？', '会員になるとどのくらい安くなる？', '支払い方法は？', '追加費用はかかりますか？'],
+        '価格': ['一番安いプランは？', '会員になるとどのくらい安くなる？', '見積もりをお願いしたい', '分割払いは可能？'],
+        '費用': ['一番安いプランは？', '会員になるとどのくらい安くなる？', '追加費用はかかりますか？', '支払い方法は？'],
+        '安い': ['一番安いプランは？', '会員になるとどのくらい安くなる？', '直葬について', '会員制度について'],
+        
+        // プラン関連
+        '家族葬': ['家族葬の詳細を教えて', 'プランの違いを教えて', '一日葬との違いは？', '一般葬との違いは？'],
+        '直葬': ['直葬の詳細を教えて', 'プランの違いを教えて', '家族葬との違いは？', '一番安いプランは？'],
+        '一日葬': ['一日葬の詳細を教えて', 'プランの違いを教えて', '家族葬との違いは？', '一般葬との違いは？'],
+        '一般葬': ['一般葬の詳細を教えて', 'プランの違いを教えて', '家族葬との違いは？', '一日葬との違いは？'],
+        '自宅葬': ['自宅葬は可能？', 'プランの違いを教えて', '家族葬との違いは？', '設備について'],
+        'プラン': ['プランの違いを教えて', 'どのプランがおすすめ？', '一番安いプランは？', '料金を教えて'],
+        
+        // 宗教関連
+        '宗教': ['仏式の葬儀について', '神式の葬儀について', '無宗教の葬儀はできる？', '宗派がわからない場合は？'],
+        '仏式': ['仏式の葬儀について', '宗派がわからない場合は？', 'お寺を紹介してもらえる？', '神式との違いは？'],
+        '神式': ['神式の葬儀について', '仏式との違いは？', '無宗教の葬儀はできる？', '宗教について'],
+        '無宗教': ['無宗教の葬儀はできる？', '宗教について', '仏式について', '神式について'],
+        '創価学会': ['創価学会の葬儀は？', '宗教について', '仏式について', '無宗教の葬儀はできる？'],
+        
+        // 施設関連
+        '斎場': ['近くの斎場を教えて', '駐車場はありますか？', '宿泊はできる？', '家族控室はある？'],
+        '会場': ['近くの斎場を教えて', '駐車場はありますか？', '宿泊はできる？', 'バリアフリー対応は？'],
+        '駐車場': ['駐車場はありますか？', '近くの斎場を教えて', '宿泊はできる？', '家族控室はある？'],
+        '宿泊': ['宿泊はできる？', '近くの斎場を教えて', '駐車場はありますか？', '家族控室はある？'],
+        
+        // 会員制度関連
+        '会員': ['会員登録の方法は？', '会員になるメリットは？', '年会費はかかる？', 'とね屋倶楽部とは？'],
+        '登録': ['会員登録の方法は？', '無料会員との違いは？', 'すぐに会員になれる？', '年会費はかかる？'],
+        '倶楽部': ['とね屋倶楽部とは？', '会員登録の方法は？', '無料会員との違いは？', '年会費はかかる？'],
+        
+        // 緊急・サービス関連
+        '緊急': ['今すぐ相談したい', '緊急時の連絡先は？', '深夜でも対応してくれる？', 'すぐに来てもらえる？'],
+        '急ぎ': ['今すぐ相談したい', '緊急時の連絡先は？', '深夜でも対応してくれる？', 'すぐに来てもらえる？'],
+        '深夜': ['深夜でも対応してくれる？', '緊急時の連絡先は？', '今すぐ相談したい', '24時間対応ですか？'],
+        'サービス': ['事前相談について', 'アフターサポートは？', '供花の注文はできる？', '送迎サービスは？'],
+        '相談': ['事前相談について', '今すぐ相談したい', '緊急時の連絡先は？', '24時間対応ですか？'],
+        
+        // 流れ・手続き関連
+        '流れ': ['手続きを教えて', '事前相談について', '病院からの搬送は？', 'アフターサポートは？'],
+        '手続き': ['手続きを教えて', '流れについて', '病院からの搬送は？', '事前相談について']
+      };
+      
+      // ユーザーの質問に含まれるキーワードに基づいて関連質問を選択
+      for (const [keyword, related] of Object.entries(relatedMapping)) {
+        if (lowerQuestion.includes(keyword)) {
+          return related;
+        }
+      }
+      
+      return [];
     },
 
     // メッセージを追加
