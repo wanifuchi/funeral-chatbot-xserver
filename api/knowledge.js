@@ -30,17 +30,19 @@ async function knowledgeHandler(req, res) {
     // 知識ベースの読み込み
     const knowledgeBase = loadKnowledgeBase();
     
-    // 要約情報の返却（セキュリティ上、全データは返さない）
+    // 要約情報とレコメンド質問データの返却
     res.json({
-      companyName: knowledgeBase.companyName,
+      companyName: knowledgeBase.companyInfo?.officialName || knowledgeBase.companyName,
       contact: knowledgeBase.contact,
       serviceAreas: knowledgeBase.serviceAreas,
-      planCount: knowledgeBase.plans ? knowledgeBase.plans.length : 0,
-      hallCount: knowledgeBase.funeralHalls ? knowledgeBase.funeralHalls.length : 0,
-      faqCount: knowledgeBase.frequentlyAskedQuestions ? 
-        knowledgeBase.frequentlyAskedQuestions.reduce((count, category) => 
-          count + (category.questions ? category.questions.length : 0), 0
-        ) : 0,
+      planCount: knowledgeBase.funeralPlans ? 
+        (knowledgeBase.funeralPlans.basicPlans?.length || 0) + 
+        (knowledgeBase.funeralPlans.specialPlans?.length || 0) + 
+        (knowledgeBase.funeralPlans.religiousPlans?.length || 0) : 0,
+      hallCount: knowledgeBase.facilities?.ownFacilities?.length || 0,
+      faqCount: knowledgeBase.customerSupport?.faq ? 1 : 0,
+      recommendedQuestions: knowledgeBase.recommendedQuestions,
+      questionMapping: knowledgeBase.questionMapping,
       timestamp: new Date().toISOString()
     });
     
