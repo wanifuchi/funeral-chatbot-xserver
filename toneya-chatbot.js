@@ -26,7 +26,7 @@
     primaryColor: '#2b4c7d',
     companyName: 'とね屋のお葬式',
     phoneNumber: '0120-000-000',
-    welcomeMessage: 'こんにちは。とね屋のお葬式です。\\n\\n料金やプランについて、具体的にお答えいたします。\\nお気軽にご質問ください。',
+    welcomeMessage: 'こんにちは。とね屋のお葬式です。\n\n料金やプランについて、具体的にお答えいたします。\nお気軽にご質問ください。',
     maxRetries: 2,
     retryDelay: 1000,
     isDebugMode: false,
@@ -683,14 +683,14 @@
       let errorMessage = '申し訳ございません。';
       
       if (error.message.includes('HTTP error! status: 5')) {
-        errorMessage += 'サーバーに問題が発生しています。\\n\\nしばらく時間をおいてから再度お試しください。';
+        errorMessage += 'サーバーに問題が発生しています。\n\nしばらく時間をおいてから再度お試しください。';
       } else if (error.message.includes('HTTP error! status: 4')) {
-        errorMessage += 'リクエストに問題があります。\\n\\nページを再読み込みしてお試しください。';
+        errorMessage += 'リクエストに問題があります。\n\nページを再読み込みしてお試しください。';
       } else {
-        errorMessage += '接続エラーが発生しました。\\n\\nネットワーク接続を確認してください。';
+        errorMessage += '接続エラーが発生しました。\n\nネットワーク接続を確認してください。';
       }
       
-      errorMessage += '\\n\\nお急ぎの場合は、お電話（' + this.config.phoneNumber + '）でお問い合わせください。';
+      errorMessage += '\n\nお急ぎの場合は、お電話（' + this.config.phoneNumber + '）でお問い合わせください。';
       this.addMessage(errorMessage, 'bot');
     },
 
